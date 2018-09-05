@@ -397,3 +397,76 @@ func TestGetColumn(t *testing.T) {
 		}
 	}
 }
+
+func TestGetDiagonal(t *testing.T) {
+	tables := []struct {
+		matrix   Matrix
+		diagonal []int
+	}{
+		{
+			diagonal: []int{},
+			matrix: Matrix{
+				{1, 0, 0},
+				{0, 2, 0},
+			},
+		},
+		{
+			diagonal: []int{},
+			matrix: Matrix{
+				{4},
+				{1},
+				{0},
+			},
+		},
+		{
+			diagonal: []int{},
+			matrix:   Matrix{},
+		},
+		{
+			diagonal: []int{4, 6, 23},
+			matrix: Matrix{
+				{4, 0, 0},
+				{0, 6, 0},
+				{0, 0, 23},
+			},
+		},
+		{
+			diagonal: []int{},
+			matrix: Matrix{
+				{0, 0, 2},
+				{0, 6, 0},
+				{2, 0, 0},
+			},
+		},
+		{
+			diagonal: []int{},
+			matrix: Matrix{
+				{4, 3, 5},
+				{1, 6},
+				{0},
+			},
+		},
+		{
+			diagonal: []int{43, 61},
+			matrix: Matrix{
+				{43, 0},
+				{0, 61},
+			},
+		},
+		{
+			diagonal: []int{},
+			matrix: Matrix{
+				{43},
+			},
+		},
+	}
+
+	for _, table := range tables {
+		diagonal := table.matrix.getDiaginal()
+		isSameDiagonal := reflect.DeepEqual(diagonal, table.diagonal)
+
+		if !isSameDiagonal {
+			t.Errorf("method getDiagonal \nGot: %v\nWant: %v ", diagonal, table.diagonal)
+		}
+	}
+}
