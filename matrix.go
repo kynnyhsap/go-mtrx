@@ -127,8 +127,6 @@ func (m Matrix) getColumn(n int) []int {
 		return []int{}
 	}
 
-	println(n)
-
 	var column []int
 	for i := 0; i < m.getRowsCount(); i++ {
 		row := m[i]
@@ -137,4 +135,20 @@ func (m Matrix) getColumn(n int) []int {
 	}
 
 	return column
+}
+
+func (m Matrix) getDiaginal() []int {
+	if !m.isDiagonalMatrix() {
+		return []int{}
+	}
+
+	var diagonal []int
+	for diagonalIndex := 0; diagonalIndex < m.getRowsCount(); diagonalIndex++ {
+		row := m[diagonalIndex]
+		element := row[diagonalIndex]
+
+		diagonal = append(diagonal, element)
+	}
+
+	return diagonal
 }
