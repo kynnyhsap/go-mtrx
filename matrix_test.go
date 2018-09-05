@@ -470,3 +470,75 @@ func TestGetDiagonal(t *testing.T) {
 		}
 	}
 }
+
+func TestIsUnitMatrix(t *testing.T) {
+	tables := []struct {
+		matrix Matrix
+		isUnit bool
+	}{
+		{
+			isUnit: false,
+			matrix: Matrix{
+				{1, 0, 0},
+				{0, 2, 0},
+			},
+		},
+		{
+			isUnit: false,
+			matrix: Matrix{
+				{4},
+				{1},
+				{0},
+			},
+		},
+		{
+			isUnit: false,
+			matrix: Matrix{},
+		},
+		{
+			isUnit: false,
+			matrix: Matrix{
+				{4, 0, 0},
+				{0, 6, 0},
+				{0, 0, 23},
+			},
+		},
+		{
+			isUnit: true,
+			matrix: Matrix{
+				{1, 0, 0},
+				{0, 1, 0},
+				{0, 0, 1},
+			},
+		},
+		{
+			isUnit: false,
+			matrix: Matrix{
+				{4, 3, 5},
+				{1, 6},
+				{0},
+			},
+		},
+		{
+			isUnit: true,
+			matrix: Matrix{
+				{1, 0},
+				{0, 1},
+			},
+		},
+		{
+			isUnit: false,
+			matrix: Matrix{
+				{1},
+			},
+		},
+	}
+
+	for _, table := range tables {
+		isUnit := table.matrix.isUnitMatrix()
+
+		if isUnit != table.isUnit {
+			t.Errorf("method isUnitMatrix \nGot: %v\nWant: %v \nMatrix: %v", isUnit, table.isUnit, table.matrix)
+		}
+	}
+}
