@@ -3,19 +3,6 @@ package matrix
 // Matrix -
 type Matrix [][]int
 
-// Dimention - the dimention of matrix
-type Dimention struct {
-	rows    int
-	columns int
-}
-
-func (m Matrix) getDimention() Dimention {
-	return Dimention{
-		rows:    m.getRowsCount(),
-		columns: m.getColumnsCount(),
-	}
-}
-
 func (m Matrix) getRowsCount() int {
 	if !m.isValid() {
 		return 0
@@ -36,74 +23,6 @@ func (m Matrix) getColumnsCount() int {
 	}
 
 	return 0
-}
-
-func (m Matrix) isValid() bool {
-	if len(m) == 0 {
-		return true
-	}
-
-	firstRow := m[0]
-	for _, row := range m {
-		if len(firstRow) != len(row) {
-			return false
-		}
-	}
-
-	return true
-}
-
-func (m Matrix) isSquareMatrix() bool {
-	if !m.isValid() {
-		return false
-	}
-
-	return m.getRowsCount() == m.getColumnsCount()
-}
-
-func (m Matrix) isNullMatrix() bool {
-	if !m.isValid() {
-		return false
-	}
-
-	for _, row := range m {
-		for _, number := range row {
-			if number != 0 {
-				return false
-			}
-		}
-	}
-
-	return true
-}
-
-func (m Matrix) isDiagonalMatrix() bool {
-	if !m.isSquareMatrix() {
-		return false
-	}
-
-	if m.getRowsCount() < 2 {
-		return false
-	}
-
-	for diagonalIndex := 0; diagonalIndex < m.getRowsCount(); diagonalIndex++ {
-		row := m[diagonalIndex]
-
-		for rowIndex := 0; rowIndex < len(row); rowIndex++ {
-			isZero := row[rowIndex] == 0
-
-			if rowIndex == diagonalIndex && isZero {
-				return false
-			}
-
-			if rowIndex != diagonalIndex && !isZero {
-				return false
-			}
-
-		}
-	}
-
-	return true
 }
 
 func (m Matrix) getRow(n int) []int {
@@ -138,7 +57,7 @@ func (m Matrix) getColumn(n int) []int {
 }
 
 func (m Matrix) getDiaginal() []int {
-	if !m.isDiagonalMatrix() {
+	if !m.isDiagonal() {
 		return []int{}
 	}
 
@@ -153,8 +72,76 @@ func (m Matrix) getDiaginal() []int {
 	return diagonal
 }
 
-func (m Matrix) isUnitMatrix() bool {
-	if !m.isDiagonalMatrix() {
+func (m Matrix) isValid() bool {
+	if len(m) == 0 {
+		return true
+	}
+
+	firstRow := m[0]
+	for _, row := range m {
+		if len(firstRow) != len(row) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func (m Matrix) isSquare() bool {
+	if !m.isValid() {
+		return false
+	}
+
+	return m.getRowsCount() == m.getColumnsCount()
+}
+
+func (m Matrix) isNull() bool {
+	if !m.isValid() {
+		return false
+	}
+
+	for _, row := range m {
+		for _, number := range row {
+			if number != 0 {
+				return false
+			}
+		}
+	}
+
+	return true
+}
+
+func (m Matrix) isDiagonal() bool {
+	if !m.isSquare() {
+		return false
+	}
+
+	if m.getRowsCount() < 2 {
+		return false
+	}
+
+	for diagonalIndex := 0; diagonalIndex < m.getRowsCount(); diagonalIndex++ {
+		row := m[diagonalIndex]
+
+		for rowIndex := 0; rowIndex < len(row); rowIndex++ {
+			isZero := row[rowIndex] == 0
+
+			if rowIndex == diagonalIndex && isZero {
+				return false
+			}
+
+			if rowIndex != diagonalIndex && !isZero {
+				return false
+			}
+
+		}
+	}
+
+	return true
+}
+
+func (m Matrix) isUnit() bool {
+	if !m.isDiagonal() {
 		return false
 	}
 
@@ -169,8 +156,8 @@ func (m Matrix) isUnitMatrix() bool {
 	return true
 }
 
-func (m Matrix) isScalarMatrix() bool {
-	if !m.isDiagonalMatrix() {
+func (m Matrix) isScalar() bool {
+	if !m.isDiagonal() {
 		return false
 	}
 
@@ -185,8 +172,8 @@ func (m Matrix) isScalarMatrix() bool {
 	return true
 }
 
-func (m Matrix) isUpperTriangularMatrix() bool {
-	if !m.isSquareMatrix() || m.getRowsCount() < 2 {
+func (m Matrix) isUpperTriangular() bool {
+	if !m.isSquare() || m.getRowsCount() < 2 {
 		return false
 	}
 
@@ -205,8 +192,8 @@ func (m Matrix) isUpperTriangularMatrix() bool {
 	return true
 }
 
-func (m Matrix) isLowerTriangularMatrix() bool {
-	if !m.isSquareMatrix() || m.getRowsCount() < 2 {
+func (m Matrix) isLowerTriangular() bool {
+	if !m.isSquare() || m.getRowsCount() < 2 {
 		return false
 	}
 

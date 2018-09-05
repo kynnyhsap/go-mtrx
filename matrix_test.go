@@ -28,7 +28,7 @@ func TestIsValidMatrix(t *testing.T) {
 }
 
 func TestIsNullMatrix(t *testing.T) {
-	tables := []struct {
+	tests := []struct {
 		matrix Matrix
 		isNull bool
 	}{
@@ -56,10 +56,9 @@ func TestIsNullMatrix(t *testing.T) {
 		},
 	}
 
-	for _, table := range tables {
-		isNullMatrix := table.matrix.isNullMatrix()
-		if isNullMatrix != table.isNull {
-			t.Errorf("method isNullMatrix \nGot: %t\nWant: %t ", isNullMatrix, table.isNull)
+	for _, test := range tests {
+		if got := test.matrix.isNull(); got != test.isNull {
+			t.Errorf("[Test failed] Method `isNull`\ngot: %v\nwant: %v", test.isNull, got)
 		}
 	}
 }
@@ -231,7 +230,7 @@ func TestIsDiagonalMatrix(t *testing.T) {
 	}
 
 	for _, table := range tables {
-		isDiagonalMatrix := table.matrix.isDiagonalMatrix()
+		isDiagonalMatrix := table.matrix.isDiagonal()
 		if isDiagonalMatrix != table.isDiagonal {
 			t.Errorf("method isDiagonalMatrix \nGot: %t\nWant: %t ", isDiagonalMatrix, table.isDiagonal)
 		}
@@ -535,7 +534,7 @@ func TestIsUnitMatrix(t *testing.T) {
 	}
 
 	for _, table := range tables {
-		isUnit := table.matrix.isUnitMatrix()
+		isUnit := table.matrix.isUnit()
 
 		if isUnit != table.isUnit {
 			t.Errorf("method isUnitMatrix \nGot: %v\nWant: %v \nMatrix: %v", isUnit, table.isUnit, table.matrix)
@@ -599,7 +598,7 @@ func TestIsUpperTriangularMatrix(t *testing.T) {
 	}
 
 	for _, table := range tables {
-		isUpper := table.matrix.isUpperTriangularMatrix()
+		isUpper := table.matrix.isUpperTriangular()
 
 		if isUpper != table.isUpper {
 			t.Errorf("method isUpperTriangularMatrix \nGot: %v\nWant: %v \nMatrix: %v", isUpper, table.isUpper, table.matrix)
@@ -663,7 +662,7 @@ func TestIsLowerTriangularMatrix(t *testing.T) {
 	}
 
 	for _, table := range tables {
-		isLower := table.matrix.isLowerTriangularMatrix()
+		isLower := table.matrix.isLowerTriangular()
 
 		if isLower != table.isLower {
 			t.Errorf("method isLowerTriangularMatrix \nGot: %v\nWant: %v \nMatrix: %v", isLower, table.isLower, table.matrix)
@@ -728,7 +727,7 @@ func TestIsScalarMatrix(t *testing.T) {
 	}
 
 	for _, table := range tables {
-		isScalar := table.matrix.isScalarMatrix()
+		isScalar := table.matrix.isScalar()
 
 		if isScalar != table.isScalar {
 			t.Errorf("method isScalarMatrix \nGot: %v\nWant: %v \nMatrix: %v", isScalar, table.isScalar, table.matrix)
