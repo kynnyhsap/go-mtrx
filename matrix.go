@@ -152,3 +152,19 @@ func (m Matrix) getDiaginal() []int {
 
 	return diagonal
 }
+
+func (m Matrix) isUnitMatrix() bool {
+	if !m.isDiagonalMatrix() {
+		return false
+	}
+
+	diagonal := m.getDiaginal()
+
+	for _, number := range diagonal {
+		if number != 1 {
+			return false
+		}
+	}
+
+	return true
+}
