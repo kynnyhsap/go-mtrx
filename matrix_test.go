@@ -542,3 +542,196 @@ func TestIsUnitMatrix(t *testing.T) {
 		}
 	}
 }
+
+func TestIsUpperTriangularMatrix(t *testing.T) {
+	tables := []struct {
+		matrix  Matrix
+		isUpper bool
+	}{
+		{
+			isUpper: true,
+			matrix: Matrix{
+				{1, 2, 4},
+				{0, 2, 3},
+				{0, 0, 1},
+			},
+		},
+		{
+			isUpper: true,
+			matrix: Matrix{
+				{1, 2, 4, 6},
+				{0, 2, 3, 2},
+				{0, 0, 1, 6},
+				{0, 0, 0, 7},
+			},
+		},
+		{
+			isUpper: true,
+			matrix: Matrix{
+				{1, 2},
+				{0, 2},
+			},
+		},
+		{
+			isUpper: false,
+			matrix: Matrix{
+				{1, 2},
+				{0},
+			},
+		},
+		{
+			isUpper: false,
+			matrix: Matrix{
+				{1, 2, 0},
+				{0, 10, 20},
+			},
+		},
+		{
+			isUpper: false,
+			matrix: Matrix{
+				{0},
+			},
+		},
+		{
+			isUpper: false,
+			matrix:  Matrix{},
+		},
+	}
+
+	for _, table := range tables {
+		isUpper := table.matrix.isUpperTriangularMatrix()
+
+		if isUpper != table.isUpper {
+			t.Errorf("method isUpperTriangularMatrix \nGot: %v\nWant: %v \nMatrix: %v", isUpper, table.isUpper, table.matrix)
+		}
+	}
+}
+
+func TestIsLowerTriangularMatrix(t *testing.T) {
+	tables := []struct {
+		matrix  Matrix
+		isLower bool
+	}{
+		{
+			isLower: true,
+			matrix: Matrix{
+				{1, 0, 0},
+				{6, 2, 0},
+				{7, 3, 1},
+			},
+		},
+		{
+			isLower: true,
+			matrix: Matrix{
+				{1, 0, 0, 0},
+				{5, 2, 0, 0},
+				{3, 5, 1, 0},
+				{5, 3, 7, 7},
+			},
+		},
+		{
+			isLower: true,
+			matrix: Matrix{
+				{1, 0},
+				{4, 2},
+			},
+		},
+		{
+			isLower: false,
+			matrix: Matrix{
+				{1, 0},
+				{1},
+			},
+		},
+		{
+			isLower: false,
+			matrix: Matrix{
+				{1, 0, 0},
+				{4, 10, 0},
+			},
+		},
+		{
+			isLower: false,
+			matrix: Matrix{
+				{0},
+			},
+		},
+		{
+			isLower: false,
+			matrix:  Matrix{},
+		},
+	}
+
+	for _, table := range tables {
+		isLower := table.matrix.isLowerTriangularMatrix()
+
+		if isLower != table.isLower {
+			t.Errorf("method isLowerTriangularMatrix \nGot: %v\nWant: %v \nMatrix: %v", isLower, table.isLower, table.matrix)
+		}
+	}
+}
+
+func TestIsScalarMatrix(t *testing.T) {
+	tables := []struct {
+		matrix   Matrix
+		isScalar bool
+	}{
+		{
+			isScalar: true,
+			matrix: Matrix{
+				{1, 0, 0},
+				{0, 1, 0},
+				{0, 0, 1},
+			},
+		},
+		{
+			isScalar: false,
+			matrix: Matrix{
+				{1, 0, 0},
+				{0, 2, 0},
+				{0, 0, 1},
+			},
+		},
+		{
+			isScalar: false,
+			matrix: Matrix{
+				{2, 0, 0, 0},
+				{0, 2, 0, 0},
+				{0, 0, 2, 0},
+				{0, 0, 0, 1},
+			},
+		},
+		{
+			isScalar: true,
+			matrix: Matrix{
+				{2, 0},
+				{0, 2},
+			},
+		},
+		{
+			isScalar: false,
+			matrix: Matrix{
+				{2, 0, 0},
+				{0, 2, 0},
+			},
+		},
+		{
+			isScalar: false,
+			matrix: Matrix{
+				{0},
+			},
+		},
+		{
+			isScalar: false,
+			matrix:   Matrix{},
+		},
+	}
+
+	for _, table := range tables {
+		isScalar := table.matrix.isScalarMatrix()
+
+		if isScalar != table.isScalar {
+			t.Errorf("method isScalarMatrix \nGot: %v\nWant: %v \nMatrix: %v", isScalar, table.isScalar, table.matrix)
+		}
+	}
+}
