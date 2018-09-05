@@ -168,3 +168,59 @@ func (m Matrix) isUnitMatrix() bool {
 
 	return true
 }
+
+func (m Matrix) isScalarMatrix() bool {
+	if !m.isDiagonalMatrix() {
+		return false
+	}
+
+	diagonal := m.getDiaginal()
+
+	for _, currentNumber := range diagonal {
+		if currentNumber != diagonal[0] {
+			return false
+		}
+	}
+
+	return true
+}
+
+func (m Matrix) isUpperTriangularMatrix() bool {
+	if !m.isSquareMatrix() || m.getRowsCount() < 2 {
+		return false
+	}
+
+	for rowIndex := 0; rowIndex < m.getRowsCount(); rowIndex++ {
+		row := m[rowIndex]
+		zeros := row[0:rowIndex]
+
+		for _, number := range zeros {
+			if number != 0 {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
+
+func (m Matrix) isLowerTriangularMatrix() bool {
+	if !m.isSquareMatrix() || m.getRowsCount() < 2 {
+		return false
+	}
+
+	for rowIndex := 0; rowIndex < m.getRowsCount(); rowIndex++ {
+		row := m[rowIndex]
+		zeros := row[rowIndex+1:]
+
+		for _, number := range zeros {
+			if number != 0 {
+				return false
+			}
+		}
+
+	}
+
+	return true
+}
