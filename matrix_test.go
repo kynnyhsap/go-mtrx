@@ -6,34 +6,72 @@ import (
 )
 
 func TestIsValidMatrix(t *testing.T) {
-	validMatrix := Matrix{
-		{1, 3, 4},
-		{12, -9, 9},
-		{6, 1, -8},
+	tests := []struct {
+		matrix Matrix
+		want   bool
+	}{
+		{
+			want: true,
+			matrix: Matrix{
+				{0, 0, 0},
+				{0, 0, 0},
+				{0, 0, 0},
+			},
+		},
+		{
+			want: true,
+			matrix: Matrix{
+				{0, 0, 0},
+			},
+		},
+		{
+			want: true,
+			matrix: Matrix{
+				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			},
+		},
+		{
+			want: false,
+			matrix: Matrix{
+				{0, 0, 0},
+				{0, 1},
+				{0},
+			},
+		},
+		{
+			want: true,
+			matrix: Matrix{
+				{0},
+			},
+		},
+		{
+			want:   true,
+			matrix: Matrix{},
+		},
 	}
 
-	if !validMatrix.isValid() {
-		t.Errorf("Err")
-	}
-
-	invalidMatrix := Matrix{
-		{1, 3, 4, 7},
-		{1},
-		{6, 1, -8},
-	}
-
-	if invalidMatrix.isValid() {
-		t.Errorf("Err")
+	for _, tt := range tests {
+		if got := tt.matrix.isValid(); got != tt.want {
+			t.Errorf("Matrix.isValid() = %v, want %v", got, tt.want)
+		}
 	}
 }
 
 func TestIsNullMatrix(t *testing.T) {
 	tests := []struct {
 		matrix Matrix
-		isNull bool
+		want   bool
 	}{
 		{
-			isNull: true,
+			want: true,
 			matrix: Matrix{
 				{0, 0, 0},
 				{0, 0, 0},
@@ -41,13 +79,13 @@ func TestIsNullMatrix(t *testing.T) {
 			},
 		},
 		{
-			isNull: true,
+			want: true,
 			matrix: Matrix{
 				{0, 0, 0},
 			},
 		},
 		{
-			isNull: false,
+			want: false,
 			matrix: Matrix{
 				{0, 0, 0},
 				{0, 1, 0},
@@ -56,20 +94,20 @@ func TestIsNullMatrix(t *testing.T) {
 		},
 	}
 
-	for _, test := range tests {
-		if got := test.matrix.isNull(); got != test.isNull {
-			t.Errorf("[Test failed] Method `isNull`\ngot: %v\nwant: %v", test.isNull, got)
+	for _, tt := range tests {
+		if got := tt.matrix.isNull(); got != tt.want {
+			t.Errorf("Matrix.isNull() = %v, want %v", got, tt.want)
 		}
 	}
 }
 
 func TestGetRowsCount(t *testing.T) {
-	tables := []struct {
+	tests := []struct {
 		matrix Matrix
-		rows   int
+		want   int
 	}{
 		{
-			rows: 3,
+			want: 3,
 			matrix: Matrix{
 				{0, 0, 0},
 				{0, 0, 0},
@@ -77,17 +115,17 @@ func TestGetRowsCount(t *testing.T) {
 			},
 		},
 		{
-			rows: 1,
+			want: 1,
 			matrix: Matrix{
 				{0, 0, 0},
 			},
 		},
 		{
-			rows:   0,
+			want:   0,
 			matrix: Matrix{},
 		},
 		{
-			rows: 6,
+			want: 6,
 			matrix: Matrix{
 				{0},
 				{0},
@@ -99,21 +137,20 @@ func TestGetRowsCount(t *testing.T) {
 		},
 	}
 
-	for _, table := range tables {
-		countRows := table.matrix.getRowsCount()
-		if countRows != table.rows {
-			t.Errorf("method countRows \nGot: %d\nWant: %d ", countRows, table.rows)
+	for _, tt := range tests {
+		if got := tt.matrix.getRowsCount(); got != tt.want {
+			t.Errorf("Matrix.getRowsCount() = %v, want %v", got, tt.want)
 		}
 	}
 }
 
 func TestGetColumnsCount(t *testing.T) {
-	tables := []struct {
-		matrix  Matrix
-		columns int
+	tests := []struct {
+		matrix Matrix
+		want   int
 	}{
 		{
-			columns: 3,
+			want: 3,
 			matrix: Matrix{
 				{0, 0, 0},
 				{0, 0, 0},
@@ -121,17 +158,17 @@ func TestGetColumnsCount(t *testing.T) {
 			},
 		},
 		{
-			columns: 2,
+			want: 2,
 			matrix: Matrix{
 				{0, 0},
 			},
 		},
 		{
-			columns: 0,
-			matrix:  Matrix{},
+			want:   0,
+			matrix: Matrix{},
 		},
 		{
-			columns: 6,
+			want: 6,
 			matrix: Matrix{
 				{0, 0, 0, 0, 0, 0},
 				{0, 0, 0, 0, 0, 0},
@@ -143,21 +180,20 @@ func TestGetColumnsCount(t *testing.T) {
 		},
 	}
 
-	for _, table := range tables {
-		countColumns := table.matrix.getColumnsCount()
-		if countColumns != table.columns {
-			t.Errorf("method countColumns \nGot: %d\nWant: %d ", countColumns, table.columns)
+	for _, tt := range tests {
+		if got := tt.matrix.getColumnsCount(); got != tt.want {
+			t.Errorf("Matrix.getColumnsCount() = %v, want %v", got, tt.want)
 		}
 	}
 }
 
 func TestIsDiagonalMatrix(t *testing.T) {
-	tables := []struct {
-		matrix     Matrix
-		isDiagonal bool
+	tests := []struct {
+		matrix Matrix
+		want   bool
 	}{
 		{
-			isDiagonal: true,
+			want: true,
 			matrix: Matrix{
 				{1, 0, 0},
 				{0, 2, 0},
@@ -165,23 +201,23 @@ func TestIsDiagonalMatrix(t *testing.T) {
 			},
 		},
 		{
-			isDiagonal: false,
+			want: false,
 			matrix: Matrix{
 				{0, 0},
 			},
 		},
 		{
-			isDiagonal: false,
+			want: false,
 			matrix: Matrix{
 				{0},
 			},
 		},
 		{
-			isDiagonal: false,
-			matrix:     Matrix{},
+			want:   false,
+			matrix: Matrix{},
 		},
 		{
-			isDiagonal: true,
+			want: true,
 			matrix: Matrix{
 				{53, 0, 0, 0},
 				{0, -234, 0, 0},
@@ -190,7 +226,7 @@ func TestIsDiagonalMatrix(t *testing.T) {
 			},
 		},
 		{
-			isDiagonal: false,
+			want: false,
 			matrix: Matrix{
 				{0, 0, 0},
 				{0, 0, 0},
@@ -198,7 +234,7 @@ func TestIsDiagonalMatrix(t *testing.T) {
 			},
 		},
 		{
-			isDiagonal: false,
+			want: false,
 			matrix: Matrix{
 				{4, 0, 0},
 				{0, 5, 0},
@@ -206,7 +242,7 @@ func TestIsDiagonalMatrix(t *testing.T) {
 			},
 		},
 		{
-			isDiagonal: false,
+			want: false,
 			matrix: Matrix{
 				{4, 0, 0},
 				{0, 0, 0},
@@ -214,14 +250,14 @@ func TestIsDiagonalMatrix(t *testing.T) {
 			},
 		},
 		{
-			isDiagonal: true,
+			want: true,
 			matrix: Matrix{
 				{4, 0},
 				{0, 1},
 			},
 		},
 		{
-			isDiagonal: false,
+			want: false,
 			matrix: Matrix{
 				{0, 1},
 				{5, 0},
@@ -229,31 +265,30 @@ func TestIsDiagonalMatrix(t *testing.T) {
 		},
 	}
 
-	for _, table := range tables {
-		isDiagonalMatrix := table.matrix.isDiagonal()
-		if isDiagonalMatrix != table.isDiagonal {
-			t.Errorf("method isDiagonalMatrix \nGot: %t\nWant: %t ", isDiagonalMatrix, table.isDiagonal)
+	for _, tt := range tests {
+		if got := tt.matrix.isDiagonal(); got != tt.want {
+			t.Errorf("Matrix.isDiagonal() = %v, want %v", got, tt.want)
 		}
 	}
 }
 
 func TestGetRow(t *testing.T) {
-	tables := []struct {
-		matrix   Matrix
-		rowIndex int
-		row      []int
+	tests := []struct {
+		matrix Matrix
+		index  int
+		want   []int
 	}{
 		{
-			rowIndex: 2,
-			row:      []int{0, 2, 0},
+			index: 2,
+			want:  []int{0, 2, 0},
 			matrix: Matrix{
 				{1, 0, 0},
 				{0, 2, 0},
 			},
 		},
 		{
-			rowIndex: 1,
-			row:      []int{4},
+			index: 1,
+			want:  []int{4},
 			matrix: Matrix{
 				{4},
 				{1},
@@ -261,8 +296,8 @@ func TestGetRow(t *testing.T) {
 			},
 		},
 		{
-			rowIndex: 3,
-			row:      []int{0, 59, 23},
+			index: 3,
+			want:  []int{0, 59, 23},
 			matrix: Matrix{
 				{4, 3, 5},
 				{1, 6, 1},
@@ -270,8 +305,8 @@ func TestGetRow(t *testing.T) {
 			},
 		},
 		{
-			rowIndex: 4,
-			row:      []int{},
+			index: 4,
+			want:  []int{},
 			matrix: Matrix{
 				{4, 3, 5},
 				{1, 6, 1},
@@ -279,8 +314,8 @@ func TestGetRow(t *testing.T) {
 			},
 		},
 		{
-			rowIndex: 30,
-			row:      []int{},
+			index: 30,
+			want:  []int{},
 			matrix: Matrix{
 				{4, 3, 5},
 				{1, 6, 1},
@@ -288,8 +323,8 @@ func TestGetRow(t *testing.T) {
 			},
 		},
 		{
-			rowIndex: -30,
-			row:      []int{},
+			index: -30,
+			want:  []int{},
 			matrix: Matrix{
 				{4, 3, 5},
 				{1, 6, 1},
@@ -297,8 +332,8 @@ func TestGetRow(t *testing.T) {
 			},
 		},
 		{
-			rowIndex: 1,
-			row:      []int{},
+			index: 1,
+			want:  []int{},
 			matrix: Matrix{
 				{4, 3, 5},
 				{1, 6},
@@ -307,33 +342,30 @@ func TestGetRow(t *testing.T) {
 		},
 	}
 
-	for _, table := range tables {
-		row := table.matrix.getRow(table.rowIndex)
-		isSameRows := reflect.DeepEqual(row, table.row)
-
-		if !isSameRows {
-			t.Errorf("method getRow \nGot: %v\nWant: %v ", row, table.row)
+	for _, tt := range tests {
+		if got := tt.matrix.getRow(tt.index); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("Matrix.isDiagonal(%v) = %v, want %v", tt.index, got, tt.want)
 		}
 	}
 }
 
 func TestGetColumn(t *testing.T) {
-	tables := []struct {
-		matrix      Matrix
-		columnIndex int
-		column      []int
+	tests := []struct {
+		matrix Matrix
+		index  int
+		want   []int
 	}{
 		{
-			columnIndex: 2,
-			column:      []int{0, 2},
+			index: 2,
+			want:  []int{0, 2},
 			matrix: Matrix{
 				{1, 0, 0},
 				{0, 2, 0},
 			},
 		},
 		{
-			columnIndex: 1,
-			column:      []int{4, 1, 0},
+			index: 1,
+			want:  []int{4, 1, 0},
 			matrix: Matrix{
 				{4},
 				{1},
@@ -341,8 +373,8 @@ func TestGetColumn(t *testing.T) {
 			},
 		},
 		{
-			columnIndex: 3,
-			column:      []int{5, 1, 23},
+			index: 3,
+			want:  []int{5, 1, 23},
 			matrix: Matrix{
 				{4, 3, 5},
 				{1, 6, 1},
@@ -350,8 +382,8 @@ func TestGetColumn(t *testing.T) {
 			},
 		},
 		{
-			columnIndex: 0,
-			column:      []int{},
+			index: 0,
+			want:  []int{},
 			matrix: Matrix{
 				{4, 3, 5},
 				{1, 6, 1},
@@ -359,8 +391,8 @@ func TestGetColumn(t *testing.T) {
 			},
 		},
 		{
-			columnIndex: 30,
-			column:      []int{},
+			index: 30,
+			want:  []int{},
 			matrix: Matrix{
 				{4, 3, 5},
 				{1, 6, 1},
@@ -368,8 +400,8 @@ func TestGetColumn(t *testing.T) {
 			},
 		},
 		{
-			columnIndex: -30,
-			column:      []int{},
+			index: -30,
+			want:  []int{},
 			matrix: Matrix{
 				{4, 3, 5},
 				{1, 6, 1},
@@ -377,8 +409,8 @@ func TestGetColumn(t *testing.T) {
 			},
 		},
 		{
-			columnIndex: 1,
-			column:      []int{},
+			index: 1,
+			want:  []int{},
 			matrix: Matrix{
 				{4, 3, 5},
 				{1, 6},
@@ -387,30 +419,27 @@ func TestGetColumn(t *testing.T) {
 		},
 	}
 
-	for _, table := range tables {
-		column := table.matrix.getColumn(table.columnIndex)
-		isSameComlumn := reflect.DeepEqual(column, table.column)
-
-		if !isSameComlumn {
-			t.Errorf("method getColumn \nGot: %v\nWant: %v ", column, table.column)
+	for _, tt := range tests {
+		if got := tt.matrix.getColumn(tt.index); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("Matrix.getColumn(%v) = %v, want %v", tt.index, got, tt.want)
 		}
 	}
 }
 
 func TestGetDiagonal(t *testing.T) {
-	tables := []struct {
-		matrix   Matrix
-		diagonal []int
+	tests := []struct {
+		matrix Matrix
+		want   []int
 	}{
 		{
-			diagonal: []int{},
+			want: []int{},
 			matrix: Matrix{
 				{1, 0, 0},
 				{0, 2, 0},
 			},
 		},
 		{
-			diagonal: []int{},
+			want: []int{},
 			matrix: Matrix{
 				{4},
 				{1},
@@ -418,11 +447,11 @@ func TestGetDiagonal(t *testing.T) {
 			},
 		},
 		{
-			diagonal: []int{},
-			matrix:   Matrix{},
+			want:   []int{},
+			matrix: Matrix{},
 		},
 		{
-			diagonal: []int{4, 6, 23},
+			want: []int{4, 6, 23},
 			matrix: Matrix{
 				{4, 0, 0},
 				{0, 6, 0},
@@ -430,7 +459,7 @@ func TestGetDiagonal(t *testing.T) {
 			},
 		},
 		{
-			diagonal: []int{},
+			want: []int{},
 			matrix: Matrix{
 				{0, 0, 2},
 				{0, 6, 0},
@@ -438,7 +467,7 @@ func TestGetDiagonal(t *testing.T) {
 			},
 		},
 		{
-			diagonal: []int{},
+			want: []int{},
 			matrix: Matrix{
 				{4, 3, 5},
 				{1, 6},
@@ -446,44 +475,42 @@ func TestGetDiagonal(t *testing.T) {
 			},
 		},
 		{
-			diagonal: []int{43, 61},
+			want: []int{43, 61},
 			matrix: Matrix{
 				{43, 0},
 				{0, 61},
 			},
 		},
 		{
-			diagonal: []int{},
+			want: []int{},
 			matrix: Matrix{
 				{43},
 			},
 		},
 	}
 
-	for _, table := range tables {
-		diagonal := table.matrix.getDiaginal()
-		isSameDiagonal := reflect.DeepEqual(diagonal, table.diagonal)
+	for _, tt := range tests {
 
-		if !isSameDiagonal {
-			t.Errorf("method getDiagonal \nGot: %v\nWant: %v ", diagonal, table.diagonal)
+		if got := tt.matrix.getDiaginal(); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("Matrix.getDiaginal() = %v, want %v", got, tt.want)
 		}
 	}
 }
 
 func TestIsUnitMatrix(t *testing.T) {
-	tables := []struct {
+	tests := []struct {
 		matrix Matrix
-		isUnit bool
+		want   bool
 	}{
 		{
-			isUnit: false,
+			want: false,
 			matrix: Matrix{
 				{1, 0, 0},
 				{0, 2, 0},
 			},
 		},
 		{
-			isUnit: false,
+			want: false,
 			matrix: Matrix{
 				{4},
 				{1},
@@ -491,11 +518,11 @@ func TestIsUnitMatrix(t *testing.T) {
 			},
 		},
 		{
-			isUnit: false,
+			want:   false,
 			matrix: Matrix{},
 		},
 		{
-			isUnit: false,
+			want: false,
 			matrix: Matrix{
 				{4, 0, 0},
 				{0, 6, 0},
@@ -503,7 +530,7 @@ func TestIsUnitMatrix(t *testing.T) {
 			},
 		},
 		{
-			isUnit: true,
+			want: true,
 			matrix: Matrix{
 				{1, 0, 0},
 				{0, 1, 0},
@@ -511,7 +538,7 @@ func TestIsUnitMatrix(t *testing.T) {
 			},
 		},
 		{
-			isUnit: false,
+			want: false,
 			matrix: Matrix{
 				{4, 3, 5},
 				{1, 6},
@@ -519,36 +546,34 @@ func TestIsUnitMatrix(t *testing.T) {
 			},
 		},
 		{
-			isUnit: true,
+			want: true,
 			matrix: Matrix{
 				{1, 0},
 				{0, 1},
 			},
 		},
 		{
-			isUnit: false,
+			want: false,
 			matrix: Matrix{
 				{1},
 			},
 		},
 	}
 
-	for _, table := range tables {
-		isUnit := table.matrix.isUnit()
-
-		if isUnit != table.isUnit {
-			t.Errorf("method isUnitMatrix \nGot: %v\nWant: %v \nMatrix: %v", isUnit, table.isUnit, table.matrix)
+	for _, tt := range tests {
+		if got := tt.matrix.isUnit(); got != tt.want {
+			t.Errorf("Matrix.isUnit() = %v, want %v", got, tt.want)
 		}
 	}
 }
 
 func TestIsUpperTriangularMatrix(t *testing.T) {
-	tables := []struct {
-		matrix  Matrix
-		isUpper bool
+	tests := []struct {
+		matrix Matrix
+		want   bool
 	}{
 		{
-			isUpper: true,
+			want: true,
 			matrix: Matrix{
 				{1, 2, 4},
 				{0, 2, 3},
@@ -556,7 +581,7 @@ func TestIsUpperTriangularMatrix(t *testing.T) {
 			},
 		},
 		{
-			isUpper: true,
+			want: true,
 			matrix: Matrix{
 				{1, 2, 4, 6},
 				{0, 2, 3, 2},
@@ -565,54 +590,52 @@ func TestIsUpperTriangularMatrix(t *testing.T) {
 			},
 		},
 		{
-			isUpper: true,
+			want: true,
 			matrix: Matrix{
 				{1, 2},
 				{0, 2},
 			},
 		},
 		{
-			isUpper: false,
+			want: false,
 			matrix: Matrix{
 				{1, 2},
 				{0},
 			},
 		},
 		{
-			isUpper: false,
+			want: false,
 			matrix: Matrix{
 				{1, 2, 0},
 				{0, 10, 20},
 			},
 		},
 		{
-			isUpper: false,
+			want: false,
 			matrix: Matrix{
 				{0},
 			},
 		},
 		{
-			isUpper: false,
-			matrix:  Matrix{},
+			want:   false,
+			matrix: Matrix{},
 		},
 	}
 
-	for _, table := range tables {
-		isUpper := table.matrix.isUpperTriangular()
-
-		if isUpper != table.isUpper {
-			t.Errorf("method isUpperTriangularMatrix \nGot: %v\nWant: %v \nMatrix: %v", isUpper, table.isUpper, table.matrix)
+	for _, tt := range tests {
+		if got := tt.matrix.isUpperTriangular(); got != tt.want {
+			t.Errorf("Matrix.isUpperTriangular() = %v, want %v", got, tt.want)
 		}
 	}
 }
 
 func TestIsLowerTriangularMatrix(t *testing.T) {
-	tables := []struct {
-		matrix  Matrix
-		isLower bool
+	tests := []struct {
+		matrix Matrix
+		want   bool
 	}{
 		{
-			isLower: true,
+			want: true,
 			matrix: Matrix{
 				{1, 0, 0},
 				{6, 2, 0},
@@ -620,7 +643,7 @@ func TestIsLowerTriangularMatrix(t *testing.T) {
 			},
 		},
 		{
-			isLower: true,
+			want: true,
 			matrix: Matrix{
 				{1, 0, 0, 0},
 				{5, 2, 0, 0},
@@ -629,54 +652,52 @@ func TestIsLowerTriangularMatrix(t *testing.T) {
 			},
 		},
 		{
-			isLower: true,
+			want: true,
 			matrix: Matrix{
 				{1, 0},
 				{4, 2},
 			},
 		},
 		{
-			isLower: false,
+			want: false,
 			matrix: Matrix{
 				{1, 0},
 				{1},
 			},
 		},
 		{
-			isLower: false,
+			want: false,
 			matrix: Matrix{
 				{1, 0, 0},
 				{4, 10, 0},
 			},
 		},
 		{
-			isLower: false,
+			want: false,
 			matrix: Matrix{
 				{0},
 			},
 		},
 		{
-			isLower: false,
-			matrix:  Matrix{},
+			want:   false,
+			matrix: Matrix{},
 		},
 	}
 
-	for _, table := range tables {
-		isLower := table.matrix.isLowerTriangular()
-
-		if isLower != table.isLower {
-			t.Errorf("method isLowerTriangularMatrix \nGot: %v\nWant: %v \nMatrix: %v", isLower, table.isLower, table.matrix)
+	for _, tt := range tests {
+		if got := tt.matrix.isLowerTriangular(); got != tt.want {
+			t.Errorf("Matrix.isLowerTriangular() = %v, want %v", got, tt.want)
 		}
 	}
 }
 
 func TestIsScalarMatrix(t *testing.T) {
-	tables := []struct {
-		matrix   Matrix
-		isScalar bool
+	tests := []struct {
+		matrix Matrix
+		want   bool
 	}{
 		{
-			isScalar: true,
+			want: true,
 			matrix: Matrix{
 				{1, 0, 0},
 				{0, 1, 0},
@@ -684,7 +705,7 @@ func TestIsScalarMatrix(t *testing.T) {
 			},
 		},
 		{
-			isScalar: false,
+			want: false,
 			matrix: Matrix{
 				{1, 0, 0},
 				{0, 2, 0},
@@ -692,7 +713,7 @@ func TestIsScalarMatrix(t *testing.T) {
 			},
 		},
 		{
-			isScalar: false,
+			want: false,
 			matrix: Matrix{
 				{2, 0, 0, 0},
 				{0, 2, 0, 0},
@@ -701,36 +722,34 @@ func TestIsScalarMatrix(t *testing.T) {
 			},
 		},
 		{
-			isScalar: true,
+			want: true,
 			matrix: Matrix{
 				{2, 0},
 				{0, 2},
 			},
 		},
 		{
-			isScalar: false,
+			want: false,
 			matrix: Matrix{
 				{2, 0, 0},
 				{0, 2, 0},
 			},
 		},
 		{
-			isScalar: false,
+			want: false,
 			matrix: Matrix{
 				{0},
 			},
 		},
 		{
-			isScalar: false,
-			matrix:   Matrix{},
+			want:   false,
+			matrix: Matrix{},
 		},
 	}
 
-	for _, table := range tables {
-		isScalar := table.matrix.isScalar()
-
-		if isScalar != table.isScalar {
-			t.Errorf("method isScalarMatrix \nGot: %v\nWant: %v \nMatrix: %v", isScalar, table.isScalar, table.matrix)
+	for _, tt := range tests {
+		if got := tt.matrix.isScalar(); got != tt.want {
+			t.Errorf("Matrix.isScalar() = %v, want %v", got, tt.want)
 		}
 	}
 }
