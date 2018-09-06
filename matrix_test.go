@@ -753,3 +753,211 @@ func TestIsScalarMatrix(t *testing.T) {
 		}
 	}
 }
+
+func TestIsSameSizeWith(t *testing.T) {
+	tests := []struct {
+		matrixA Matrix
+		matrixB Matrix
+		want    bool
+	}{
+		{
+			want: true,
+			matrixA: Matrix{
+				{13456354, 34564356, 2345234},
+				{2345230, 12345234, 345635},
+				{34634, 3456345, 34563451},
+			},
+			matrixB: Matrix{
+				{1, 0, 0},
+				{0, 1, 0},
+				{0, 0, 1},
+			},
+		},
+		{
+			want: true,
+			matrixA: Matrix{
+				{56, 32, 5},
+			},
+			matrixB: Matrix{
+				{1, 0, 0},
+			},
+		},
+		{
+			want: true,
+			matrixA: Matrix{
+				{56},
+				{32},
+				{5},
+			},
+			matrixB: Matrix{
+				{1},
+				{0},
+				{0},
+			},
+		},
+		{
+			want: true,
+			matrixA: Matrix{
+				{56},
+			},
+			matrixB: Matrix{
+				{1},
+			},
+		},
+		{
+			want:    true,
+			matrixA: Matrix{},
+			matrixB: Matrix{},
+		},
+		{
+			want: false,
+			matrixA: Matrix{
+				{13456354, 34564356, 2345234},
+				{2345230, 12345234, 345635},
+			},
+			matrixB: Matrix{
+				{1, 0, 0},
+				{0, 1, 0},
+				{0, 0, 1},
+			},
+		},
+		{
+			want: false,
+			matrixA: Matrix{
+				{13456354, 34564356, 2345234},
+				{2345230, 12345234, 345635},
+			},
+			matrixB: Matrix{
+				{1, 0},
+				{0, 1},
+				{0, 0},
+			},
+		},
+		{
+			want:    false,
+			matrixA: Matrix{},
+			matrixB: Matrix{
+				{1},
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		if got := tt.matrixA.isSameSizeWith(tt.matrixB); got != tt.want {
+			t.Errorf("Matrix.isSameSizeWith() = %v, want %v", got, tt.want)
+		}
+	}
+}
+
+func TestIsMatchedWith(t *testing.T) {
+	tests := []struct {
+		matrixA Matrix
+		matrixB Matrix
+		want    bool
+	}{
+		{
+			want: true,
+			matrixA: Matrix{
+				{13456354, 34564356, 2345234},
+				{2345230, 12345234, 345635},
+				{34634, 3456345, 34563451},
+			},
+			matrixB: Matrix{
+				{1, 0, 0},
+				{0, 1, 0},
+				{0, 0, 1},
+			},
+		},
+		{
+			want: true,
+			matrixA: Matrix{
+				{56, 32, 5},
+			},
+			matrixB: Matrix{
+				{56},
+				{32},
+				{5},
+			},
+		},
+		{
+			want: true,
+			matrixA: Matrix{
+				{56},
+				{32},
+				{5},
+			},
+			matrixB: Matrix{
+				{56, 32, 5},
+			},
+		},
+		{
+			want: true,
+			matrixA: Matrix{
+				{56},
+			},
+			matrixB: Matrix{
+				{56},
+			},
+		},
+		{
+			want: true,
+			matrixA: Matrix{
+				{56, 40},
+				{32, 45},
+				{5, 22},
+				{5, 22},
+				{5, 22},
+				{5, 22},
+			},
+			matrixB: Matrix{
+				{56},
+				{56},
+			},
+		},
+		{
+			want: true,
+			matrixA: Matrix{
+				{56, 40},
+				{32, 45},
+				{5, 22},
+				{5, 22},
+				{5, 22},
+				{5, 22},
+			},
+			matrixB: Matrix{
+				{56},
+				{56},
+			},
+		},
+		{
+			want: false,
+			matrixA: Matrix{
+				{56, 40, 4, 3345, 3, 45, 34},
+				{32, 45},
+			},
+			matrixB: Matrix{
+				{56},
+				{56},
+				{56},
+			},
+		},
+		{
+			want: false,
+			matrixA: Matrix{
+				{56, 40},
+				{32, 45},
+			},
+			matrixB: Matrix{
+				{56},
+				{56},
+				{56},
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		if got := tt.matrixA.isMatchedWith(tt.matrixB); got != tt.want {
+			t.Errorf("Matrix.isMatchedWith(%v) = %v, want %v", tt.matrixB, got, tt.want)
+		}
+	}
+}

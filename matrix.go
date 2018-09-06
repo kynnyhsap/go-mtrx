@@ -211,3 +211,39 @@ func (m Matrix) isLowerTriangular() bool {
 
 	return true
 }
+
+func (m Matrix) isSameSizeWith(b Matrix) bool {
+	if !m.isValid() || !b.isValid() {
+		return false
+	}
+
+	if m.getRowsCount() != b.getRowsCount() || m.getColumnsCount() != b.getColumnsCount() {
+		return false
+	}
+
+	return true
+}
+
+func (m Matrix) isMatchedWith(b Matrix) bool {
+	if !m.isValid() || !b.isValid() {
+		return false
+	}
+
+	if m.getColumnsCount() != b.getRowsCount() {
+		return false
+	}
+
+	return true
+}
+
+// func (a Matrix) add(b Matrix) Matrix {
+// 	if !a.isValid() || !b.isValid() {
+// 		return Matrix{}
+// 	}
+
+// 	for i := 0; i < ; i++ {
+
+// 	}
+
+// 	return true
+// }
