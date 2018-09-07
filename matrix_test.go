@@ -348,6 +348,87 @@ func TestGetRow(t *testing.T) {
 		}
 	}
 }
+func TestSetRow(t *testing.T) {
+	tests := []struct {
+		matrix Matrix
+		index  int
+		newRow []int
+		want   Matrix
+	}{
+		{
+			index:  2,
+			newRow: []int{1, 1, 1},
+			matrix: Matrix{
+				{1, 0, 0},
+				{9, 9, 9},
+				{0, 2, 0},
+			},
+			want: Matrix{
+				{1, 0, 0},
+				{1, 1, 1},
+				{0, 2, 0},
+			},
+		},
+		{
+			index:  1,
+			newRow: []int{3, 4, 2},
+			matrix: Matrix{
+				{1, 0, 0},
+			},
+			want: Matrix{
+				{3, 4, 2},
+			},
+		},
+		{
+			index:  4,
+			newRow: []int{3},
+			matrix: Matrix{
+				{1},
+				{1},
+				{1},
+				{1},
+				{1},
+			},
+			want: Matrix{
+				{1},
+				{1},
+				{1},
+				{3},
+				{1},
+			},
+		},
+		{
+			index:  0,
+			newRow: []int{3, 4, 2},
+			matrix: Matrix{
+				{1, 0, 0},
+			},
+			want: Matrix{},
+		},
+		{
+			index:  14,
+			newRow: []int{3, 4, 2},
+			matrix: Matrix{
+				{1, 0, 0},
+			},
+			want: Matrix{},
+		},
+		{
+			index:  1,
+			newRow: []int{3},
+			matrix: Matrix{
+				{1, 0, 0},
+			},
+			want: Matrix{},
+		},
+	}
+
+	for _, tt := range tests {
+		if got := tt.matrix.setRow(tt.index, tt.newRow); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("Matrix.getRow(%v, %v) = %v, want %v", tt.index, tt.newRow, got, tt.want)
+		}
+	}
+}
 
 func TestGetColumn(t *testing.T) {
 	tests := []struct {
@@ -422,6 +503,104 @@ func TestGetColumn(t *testing.T) {
 	for _, tt := range tests {
 		if got := tt.matrix.getColumn(tt.index); !reflect.DeepEqual(got, tt.want) {
 			t.Errorf("Matrix.getColumn(%v) = %v, want %v", tt.index, got, tt.want)
+		}
+	}
+}
+
+func TestSetColumn(t *testing.T) {
+	tests := []struct {
+		matrix    Matrix
+		index     int
+		newColumn []int
+		want      Matrix
+	}{
+		{
+			index:     2,
+			newColumn: []int{10, 10, 10},
+			matrix: Matrix{
+				{1, 0, 3},
+				{2, 5, 5},
+				{4, 2, 0},
+			},
+			want: Matrix{
+				{1, 10, 3},
+				{2, 10, 5},
+				{4, 10, 0},
+			},
+		},
+		{
+			index:     1,
+			newColumn: []int{3},
+			matrix: Matrix{
+				{1, 0, 0},
+			},
+			want: Matrix{
+				{3, 0, 0},
+			},
+		},
+		{
+			index:     3,
+			newColumn: []int{55},
+			matrix: Matrix{
+				{1, 0, 0},
+			},
+			want: Matrix{
+				{1, 0, 55},
+			},
+		},
+		{
+			index:     1,
+			newColumn: []int{3, 3, 3, 3, 3},
+			matrix: Matrix{
+				{1},
+				{1},
+				{1},
+				{1},
+				{1},
+			},
+			want: Matrix{
+				{3},
+				{3},
+				{3},
+				{3},
+				{3},
+			},
+		},
+		{
+			index:     4,
+			newColumn: []int{3, 3, 3, 3, 3},
+			matrix: Matrix{
+				{1},
+				{1},
+				{1},
+				{1},
+				{1},
+			},
+			want: Matrix{},
+		},
+		{
+			index:     0,
+			newColumn: []int{3},
+			matrix: Matrix{
+				{1, 0, 0},
+			},
+			want: Matrix{},
+		},
+		{
+			index:     1,
+			newColumn: []int{3},
+			matrix: Matrix{
+				{1, 0, 0},
+				{1, 0, 0},
+				{1, 0, 0},
+			},
+			want: Matrix{},
+		},
+	}
+
+	for _, tt := range tests {
+		if got := tt.matrix.setColumn(tt.index, tt.newColumn); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("Matrix.setColumn(%v, %v) = %v, want %v", tt.index, tt.newColumn, got, tt.want)
 		}
 	}
 }
@@ -1099,6 +1278,73 @@ func TestMultiplyBy(t *testing.T) {
 	for _, tt := range tests {
 		if got := tt.matrixA.multipyBy(tt.matrixB); !reflect.DeepEqual(got, tt.want) {
 			t.Errorf("Matrix.multipyBy() = %v, want %v", got, tt.want)
+		}
+	}
+}
+
+func TestTranpose(t *testing.T) {
+	tests := []struct {
+		matrix Matrix
+		want   Matrix
+	}{
+		{
+			matrix: Matrix{
+				{1, 2, -1},
+				{2, 0, 1},
+			},
+			want: Matrix{
+				{1, 2},
+				{2, 0},
+				{-1, 1},
+			},
+		},
+		{
+			matrix: Matrix{
+				{-1, 2, 4, 0, 7},
+				{3, -5, 24, 9, -3},
+				{-10, -8, -2, -4, 11},
+			},
+			want: Matrix{
+				{-1, 3, -10},
+				{2, -5, -8},
+				{4, 24, -2},
+				{0, 9, -4},
+				{7, -3, 11},
+			},
+		},
+		{
+			matrix: Matrix{
+				{1, 2, 9, 4, 3, 1},
+			},
+			want: Matrix{
+				{1},
+				{2},
+				{9},
+				{4},
+				{3},
+				{1},
+			},
+		},
+		{
+			matrix: Matrix{
+				{1},
+			},
+			want: Matrix{
+				{1},
+			},
+		},
+		{
+			matrix: Matrix{
+				{1, 4},
+				{1},
+			},
+			want: Matrix{},
+		},
+	}
+
+	for _, tt := range tests {
+		if got := tt.matrix.transpose(); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("Matrix.transpose() = %v, want %v", got, tt.want)
 		}
 	}
 }
