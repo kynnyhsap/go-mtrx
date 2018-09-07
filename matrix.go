@@ -3,6 +3,18 @@ package matrix
 // Matrix -
 type Matrix [][]int
 
+func createMatrix(rowsCount int, columnsCount int) Matrix {
+
+	var rows Matrix = make([][]int, rowsCount)
+
+	for i := 0; i < rowsCount; i++ {
+		column := make([]int, columnsCount)
+		rows[i] = column
+	}
+
+	return rows
+}
+
 func (m Matrix) getRowsCount() int {
 	if !m.isValid() {
 		return 0
@@ -236,14 +248,51 @@ func (m Matrix) isMatchedWith(b Matrix) bool {
 	return true
 }
 
-// func (a Matrix) add(b Matrix) Matrix {
-// 	if !a.isValid() || !b.isValid() {
-// 		return Matrix{}
-// 	}
+func (m Matrix) add(b Matrix) Matrix {
+	if !m.isValid() || !b.isValid() {
+		return Matrix{}
+	}
 
-// 	for i := 0; i < ; i++ {
+	if !m.isSameSizeWith(b) {
+		return Matrix{}
+	}
 
-// 	}
+	for i := 0; i < m.getRowsCount(); i++ {
+		for j := 0; j < m.getColumnsCount(); j++ {
+			m[i][j] = m[i][j] + b[i][j]
+		}
+	}
 
-// 	return true
-// }
+	return m
+}
+
+func (m Matrix) multipyBy(b Matrix) Matrix {
+	if !m.isValid() || !b.isValid() {
+		return Matrix{}
+	}
+
+	if !m.isMatchedWith(b) {
+		return Matrix{}
+	}
+
+	var newMatrix [][]int
+	for rowIndex := 1; rowIndex <= m.getRowsCount(); rowIndex++ {
+		row := m.getRow(rowIndex)
+
+		var newRow []int
+		for columnIndex := 1; columnIndex <= b.getColumnsCount(); columnIndex++ {
+			column := b.getColumn(columnIndex)
+
+			var number int
+			for i := 0; i < len(row); i++ {
+				number += row[i] * column[i]
+			}
+
+			newRow = append(newRow, number)
+		}
+
+		newMatrix = append(newMatrix, newRow)
+	}
+
+	return Matrix(newMatrix)
+}
