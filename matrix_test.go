@@ -344,7 +344,7 @@ func TestGetRow(t *testing.T) {
 
 	for _, tt := range tests {
 		if got := tt.matrix.getRow(tt.index); !reflect.DeepEqual(got, tt.want) {
-			t.Errorf("Matrix.isDiagonal(%v) = %v, want %v", tt.index, got, tt.want)
+			t.Errorf("Matrix.getRow(%v) = %v, want %v", tt.index, got, tt.want)
 		}
 	}
 }
@@ -957,7 +957,148 @@ func TestIsMatchedWith(t *testing.T) {
 
 	for _, tt := range tests {
 		if got := tt.matrixA.isMatchedWith(tt.matrixB); got != tt.want {
-			t.Errorf("Matrix.isMatchedWith(%v) = %v, want %v", tt.matrixB, got, tt.want)
+			t.Errorf("Matrix.isMatchedWith() = %v, want %v", got, tt.want)
+		}
+	}
+}
+
+func TestAdd(t *testing.T) {
+	tests := []struct {
+		matrixA Matrix
+		matrixB Matrix
+		want    Matrix
+	}{
+		{
+			matrixA: Matrix{
+				{4, 34},
+				{5, 0},
+			},
+			matrixB: Matrix{
+				{1, 0},
+				{0, 1},
+			},
+			want: Matrix{
+				{5, 34},
+				{5, 1},
+			},
+		},
+		{
+			matrixA: Matrix{
+				{4, 34},
+			},
+			matrixB: Matrix{
+				{10, -4},
+			},
+			want: Matrix{
+				{14, 30},
+			},
+		},
+		{
+			matrixA: Matrix{
+				{4, 34, 0},
+			},
+			matrixB: Matrix{
+				{10, -4},
+				{0, 1},
+			},
+			want: Matrix{},
+		},
+		{
+			matrixA: Matrix{
+				{4, 34, 0},
+				{4},
+			},
+			matrixB: Matrix{
+				{10, -4},
+				{0, 1},
+			},
+			want: Matrix{},
+		},
+	}
+
+	for _, tt := range tests {
+		if got := tt.matrixA.add(tt.matrixB); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("Matrix.add() = %v, want %v", got, tt.want)
+		}
+	}
+}
+
+func TestMultiplyBy(t *testing.T) {
+	tests := []struct {
+		matrixA Matrix
+		matrixB Matrix
+		want    Matrix
+	}{
+		{
+			matrixA: Matrix{
+				{1, 2, -1},
+				{2, 0, 1},
+			},
+			matrixB: Matrix{
+				{3, 1},
+				{0, -1},
+				{-2, 3},
+			},
+			want: Matrix{
+				{5, -4},
+				{4, 5},
+			},
+		},
+		{
+			matrixA: Matrix{
+				{3, 2, 1},
+				{2, 0, -1},
+			},
+			matrixB: Matrix{
+				{3, 1},
+				{-2, 0},
+				{1, 2},
+			},
+			want: Matrix{
+				{6, 5},
+				{5, 0},
+			},
+		},
+		{
+			matrixA: Matrix{
+				{-9, 2, 1},
+			},
+			matrixB: Matrix{
+				{3},
+				{3},
+				{5},
+			},
+			want: Matrix{
+				{-16},
+			},
+		},
+		{
+			matrixA: Matrix{
+				{-9, 3},
+			},
+			matrixB: Matrix{
+				{3},
+			},
+			want: Matrix{},
+		},
+		{
+			matrixA: Matrix{
+				{-9, 3, 0},
+				{-9, 3},
+				{-9},
+			},
+			matrixB: Matrix{
+				{3},
+				{3, 9},
+				{3, 9, 0},
+			},
+			want: Matrix{},
+		},
+	}
+
+	for _, tt := range tests {
+		if got := tt.matrixA.multipyBy(tt.matrixB); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("Matrix.multipyBy() = %v, want %v", got, tt.want)
 		}
 	}
 }
