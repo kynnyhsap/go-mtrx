@@ -1,6 +1,7 @@
 package matrix
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -59,8 +60,8 @@ func TestIsValidMatrix(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.matrix.isValid(); got != tt.want {
-			t.Errorf("Matrix.isValid() = %v, want %v", got, tt.want)
+		if got := tt.matrix.IsValid(); got != tt.want {
+			t.Errorf("Matrix.IsValid() = %v, want %v", got, tt.want)
 		}
 	}
 }
@@ -95,8 +96,8 @@ func TestIsNullMatrix(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.matrix.isNull(); got != tt.want {
-			t.Errorf("Matrix.isNull() = %v, want %v", got, tt.want)
+		if got := tt.matrix.IsNull(); got != tt.want {
+			t.Errorf("Matrix.IsNull() = %v, want %v", got, tt.want)
 		}
 	}
 }
@@ -138,8 +139,8 @@ func TestGetRowsCount(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.matrix.getRowsCount(); got != tt.want {
-			t.Errorf("Matrix.getRowsCount() = %v, want %v", got, tt.want)
+		if got := tt.matrix.GetRowsCount(); got != tt.want {
+			t.Errorf("Matrix.GetRowsCount() = %v, want %v", got, tt.want)
 		}
 	}
 }
@@ -181,8 +182,8 @@ func TestGetColumnsCount(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.matrix.getColumnsCount(); got != tt.want {
-			t.Errorf("Matrix.getColumnsCount() = %v, want %v", got, tt.want)
+		if got := tt.matrix.GetColumnsCount(); got != tt.want {
+			t.Errorf("Matrix.GetColumnsCount() = %v, want %v", got, tt.want)
 		}
 	}
 }
@@ -266,8 +267,8 @@ func TestIsDiagonalMatrix(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.matrix.isDiagonal(); got != tt.want {
-			t.Errorf("Matrix.isDiagonal() = %v, want %v", got, tt.want)
+		if got := tt.matrix.IsDiagonal(); got != tt.want {
+			t.Errorf("Matrix.IsDiagonal() = %v, want %v", got, tt.want)
 		}
 	}
 }
@@ -343,8 +344,8 @@ func TestGetRow(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.matrix.getRow(tt.index); !reflect.DeepEqual(got, tt.want) {
-			t.Errorf("Matrix.getRow(%v) = %v, want %v", tt.index, got, tt.want)
+		if got := tt.matrix.GetRow(tt.index); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("Matrix.GetRow(%v) = %v, want %v", tt.index, got, tt.want)
 		}
 	}
 }
@@ -424,8 +425,8 @@ func TestSetRow(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.matrix.setRow(tt.index, tt.newRow); !reflect.DeepEqual(got, tt.want) {
-			t.Errorf("Matrix.getRow(%v, %v) = %v, want %v", tt.index, tt.newRow, got, tt.want)
+		if got := tt.matrix.SetRow(tt.index, tt.newRow); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("Matrix.SetRow(%v, %v) = %v, want %v", tt.index, tt.newRow, got, tt.want)
 		}
 	}
 }
@@ -501,8 +502,8 @@ func TestGetColumn(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.matrix.getColumn(tt.index); !reflect.DeepEqual(got, tt.want) {
-			t.Errorf("Matrix.getColumn(%v) = %v, want %v", tt.index, got, tt.want)
+		if got := tt.matrix.GetColumn(tt.index); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("Matrix.GetColumn(%v) = %v, want %v", tt.index, got, tt.want)
 		}
 	}
 }
@@ -599,8 +600,8 @@ func TestSetColumn(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.matrix.setColumn(tt.index, tt.newColumn); !reflect.DeepEqual(got, tt.want) {
-			t.Errorf("Matrix.setColumn(%v, %v) = %v, want %v", tt.index, tt.newColumn, got, tt.want)
+		if got := tt.matrix.SetColumn(tt.index, tt.newColumn); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("Matrix.SetColumn(%v, %v) = %v, want %v", tt.index, tt.newColumn, got, tt.want)
 		}
 	}
 }
@@ -670,8 +671,8 @@ func TestGetDiagonal(t *testing.T) {
 
 	for _, tt := range tests {
 
-		if got := tt.matrix.getDiaginal(); !reflect.DeepEqual(got, tt.want) {
-			t.Errorf("Matrix.getDiaginal() = %v, want %v", got, tt.want)
+		if got := tt.matrix.GetDiaginal(); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("Matrix.GetDiaginal() = %v, want %v", got, tt.want)
 		}
 	}
 }
@@ -740,12 +741,11 @@ func TestIsUnitMatrix(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.matrix.isUnit(); got != tt.want {
-			t.Errorf("Matrix.isUnit() = %v, want %v", got, tt.want)
+		if got := tt.matrix.IsUnit(); got != tt.want {
+			t.Errorf("Matrix.IsUnit() = %v, want %v", got, tt.want)
 		}
 	}
 }
-
 func TestIsUpperTriangularMatrix(t *testing.T) {
 	tests := []struct {
 		matrix Matrix
@@ -802,8 +802,8 @@ func TestIsUpperTriangularMatrix(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.matrix.isUpperTriangular(); got != tt.want {
-			t.Errorf("Matrix.isUpperTriangular() = %v, want %v", got, tt.want)
+		if got := tt.matrix.IsUpperTriangular(); got != tt.want {
+			t.Errorf("Matrix.IsUpperTriangular() = %v, want %v", got, tt.want)
 		}
 	}
 }
@@ -864,12 +864,11 @@ func TestIsLowerTriangularMatrix(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.matrix.isLowerTriangular(); got != tt.want {
-			t.Errorf("Matrix.isLowerTriangular() = %v, want %v", got, tt.want)
+		if got := tt.matrix.IsLowerTriangular(); got != tt.want {
+			t.Errorf("Matrix.IsLowerTriangular() = %v, want %v", got, tt.want)
 		}
 	}
 }
-
 func TestIsScalarMatrix(t *testing.T) {
 	tests := []struct {
 		matrix Matrix
@@ -927,12 +926,11 @@ func TestIsScalarMatrix(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.matrix.isScalar(); got != tt.want {
-			t.Errorf("Matrix.isScalar() = %v, want %v", got, tt.want)
+		if got := tt.matrix.IsScalar(); got != tt.want {
+			t.Errorf("Matrix.IsScalar() = %v, want %v", got, tt.want)
 		}
 	}
 }
-
 func TestIsSameSizeWith(t *testing.T) {
 	tests := []struct {
 		matrixA Matrix
@@ -1022,12 +1020,11 @@ func TestIsSameSizeWith(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.matrixA.isSameSizeWith(tt.matrixB); got != tt.want {
-			t.Errorf("Matrix.isSameSizeWith() = %v, want %v", got, tt.want)
+		if got := tt.matrixA.IsSameSizeWith(tt.matrixB); got != tt.want {
+			t.Errorf("Matrix.IsSameSizeWith() = %v, want %v", got, tt.want)
 		}
 	}
 }
-
 func TestIsMatchedWith(t *testing.T) {
 	tests := []struct {
 		matrixA Matrix
@@ -1135,12 +1132,11 @@ func TestIsMatchedWith(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.matrixA.isMatchedWith(tt.matrixB); got != tt.want {
-			t.Errorf("Matrix.isMatchedWith() = %v, want %v", got, tt.want)
+		if got := tt.matrixA.IsMatchedWith(tt.matrixB); got != tt.want {
+			t.Errorf("Matrix.IsMatchedWith() = %v, want %v", got, tt.want)
 		}
 	}
 }
-
 func TestAdd(t *testing.T) {
 	tests := []struct {
 		matrixA Matrix
@@ -1196,8 +1192,8 @@ func TestAdd(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.matrixA.add(tt.matrixB); !reflect.DeepEqual(got, tt.want) {
-			t.Errorf("Matrix.add() = %v, want %v", got, tt.want)
+		if got := tt.matrixA.Add(tt.matrixB); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("Matrix.Add() = %v, want %v", got, tt.want)
 		}
 	}
 }
@@ -1276,8 +1272,8 @@ func TestMultiplyBy(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.matrixA.multipyBy(tt.matrixB); !reflect.DeepEqual(got, tt.want) {
-			t.Errorf("Matrix.multipyBy() = %v, want %v", got, tt.want)
+		if got := tt.matrixA.MultipyBy(tt.matrixB); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("Matrix.MultipyBy() = %v, want %v", got, tt.want)
 		}
 	}
 }
@@ -1343,8 +1339,49 @@ func TestTranpose(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if got := tt.matrix.transpose(); !reflect.DeepEqual(got, tt.want) {
-			t.Errorf("Matrix.transpose() = %v, want %v", got, tt.want)
+		if got := tt.matrix.Transpose(); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("Matrix.Transpose() = %v, want %v", got, tt.want)
+		}
+	}
+}
+
+func TestStringer(t *testing.T) {
+	tests := []struct {
+		matrix Matrix
+		want   string
+	}{
+		{
+			matrix: Matrix{
+				{1, 2},
+				{2, 1},
+			},
+			want: "\n[1 2]\n[2 1]\n",
+		},
+		{
+			matrix: Matrix{
+				{0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0},
+			},
+			want: "\n[0 0 0 0 0]\n[0 0 0 0 0]\n[0 0 0 0 0]\n[0 0 0 0 0]\n[0 0 0 0 0]\n",
+		},
+		{
+			matrix: Matrix{
+				{0},
+			},
+			want: "\n[0]\n",
+		},
+		{
+			matrix: Matrix{},
+			want:   "\n[ ]\n",
+		},
+	}
+
+	for _, tt := range tests {
+		if got := fmt.Sprint(tt.matrix); got != tt.want {
+			t.Errorf("Matrix.String() = %v, want %v", got, tt.want)
 		}
 	}
 }

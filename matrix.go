@@ -1,9 +1,11 @@
 package matrix
 
+import "fmt"
+
 // Matrix -
 type Matrix [][]int
 
-func createMatrix(rowsCount int, columnsCount int) Matrix {
+func CreateMatrix(rowsCount int, columnsCount int) Matrix {
 
 	var rows Matrix = make([][]int, rowsCount)
 
@@ -15,16 +17,16 @@ func createMatrix(rowsCount int, columnsCount int) Matrix {
 	return rows
 }
 
-func (m Matrix) getRowsCount() int {
-	if !m.isValid() {
+func (m Matrix) GetRowsCount() int {
+	if !m.IsValid() {
 		return 0
 	}
 
 	return len(m)
 }
 
-func (m Matrix) getColumnsCount() int {
-	if !m.isValid() {
+func (m Matrix) GetColumnsCount() int {
+	if !m.IsValid() {
 		return 0
 	}
 
@@ -37,28 +39,28 @@ func (m Matrix) getColumnsCount() int {
 	return 0
 }
 
-func (m Matrix) getRow(n int) []int {
-	if !m.isValid() {
+func (m Matrix) GetRow(n int) []int {
+	if !m.IsValid() {
 		return []int{}
 	}
 
-	if m.getRowsCount() < n || n < 1 {
+	if m.GetRowsCount() < n || n < 1 {
 		return []int{}
 	}
 
 	return m[n-1]
 }
 
-func (m Matrix) setRow(n int, row []int) Matrix {
-	if !m.isValid() {
+func (m Matrix) SetRow(n int, row []int) Matrix {
+	if !m.IsValid() {
 		return Matrix{}
 	}
 
-	if m.getRowsCount() < n || n < 1 {
+	if m.GetRowsCount() < n || n < 1 {
 		return Matrix{}
 	}
 
-	if m.getColumnsCount() != len(row) {
+	if m.GetColumnsCount() != len(row) {
 		return Matrix{}
 	}
 
@@ -67,17 +69,17 @@ func (m Matrix) setRow(n int, row []int) Matrix {
 	return m
 }
 
-func (m Matrix) getColumn(n int) []int {
-	if !m.isValid() {
+func (m Matrix) GetColumn(n int) []int {
+	if !m.IsValid() {
 		return []int{}
 	}
 
-	if n < 1 || m.getColumnsCount() < n {
+	if n < 1 || m.GetColumnsCount() < n {
 		return []int{}
 	}
 
 	var column []int
-	for i := 0; i < m.getRowsCount(); i++ {
+	for i := 0; i < m.GetRowsCount(); i++ {
 		row := m[i]
 
 		column = append(column, row[n-1])
@@ -86,20 +88,20 @@ func (m Matrix) getColumn(n int) []int {
 	return column
 }
 
-func (m Matrix) setColumn(n int, column []int) Matrix {
-	if !m.isValid() {
+func (m Matrix) SetColumn(n int, column []int) Matrix {
+	if !m.IsValid() {
 		return Matrix{}
 	}
 
-	if n < 1 || m.getColumnsCount() < n {
+	if n < 1 || m.GetColumnsCount() < n {
 		return Matrix{}
 	}
 
-	if m.getRowsCount() != len(column) {
+	if m.GetRowsCount() != len(column) {
 		return Matrix{}
 	}
 
-	for rowIndex := 0; rowIndex < m.getRowsCount(); rowIndex++ {
+	for rowIndex := 0; rowIndex < m.GetRowsCount(); rowIndex++ {
 		row := m[rowIndex]
 		row[n-1] = column[rowIndex]
 	}
@@ -107,13 +109,13 @@ func (m Matrix) setColumn(n int, column []int) Matrix {
 	return m
 }
 
-func (m Matrix) getDiaginal() []int {
-	if !m.isDiagonal() {
+func (m Matrix) GetDiaginal() []int {
+	if !m.IsDiagonal() {
 		return []int{}
 	}
 
 	var diagonal []int
-	for diagonalIndex := 0; diagonalIndex < m.getRowsCount(); diagonalIndex++ {
+	for diagonalIndex := 0; diagonalIndex < m.GetRowsCount(); diagonalIndex++ {
 		row := m[diagonalIndex]
 		element := row[diagonalIndex]
 
@@ -123,7 +125,7 @@ func (m Matrix) getDiaginal() []int {
 	return diagonal
 }
 
-func (m Matrix) isValid() bool {
+func (m Matrix) IsValid() bool {
 	if len(m) == 0 {
 		return true
 	}
@@ -138,16 +140,16 @@ func (m Matrix) isValid() bool {
 	return true
 }
 
-func (m Matrix) isSquare() bool {
-	if !m.isValid() {
+func (m Matrix) IsSquare() bool {
+	if !m.IsValid() {
 		return false
 	}
 
-	return m.getRowsCount() == m.getColumnsCount()
+	return m.GetRowsCount() == m.GetColumnsCount()
 }
 
-func (m Matrix) isNull() bool {
-	if !m.isValid() {
+func (m Matrix) IsNull() bool {
+	if !m.IsValid() {
 		return false
 	}
 
@@ -162,16 +164,16 @@ func (m Matrix) isNull() bool {
 	return true
 }
 
-func (m Matrix) isDiagonal() bool {
-	if !m.isSquare() {
+func (m Matrix) IsDiagonal() bool {
+	if !m.IsSquare() {
 		return false
 	}
 
-	if m.getRowsCount() < 2 {
+	if m.GetRowsCount() < 2 {
 		return false
 	}
 
-	for diagonalIndex := 0; diagonalIndex < m.getRowsCount(); diagonalIndex++ {
+	for diagonalIndex := 0; diagonalIndex < m.GetRowsCount(); diagonalIndex++ {
 		row := m[diagonalIndex]
 
 		for rowIndex := 0; rowIndex < len(row); rowIndex++ {
@@ -191,12 +193,12 @@ func (m Matrix) isDiagonal() bool {
 	return true
 }
 
-func (m Matrix) isUnit() bool {
-	if !m.isDiagonal() {
+func (m Matrix) IsUnit() bool {
+	if !m.IsDiagonal() {
 		return false
 	}
 
-	diagonal := m.getDiaginal()
+	diagonal := m.GetDiaginal()
 
 	for _, number := range diagonal {
 		if number != 1 {
@@ -207,12 +209,12 @@ func (m Matrix) isUnit() bool {
 	return true
 }
 
-func (m Matrix) isScalar() bool {
-	if !m.isDiagonal() {
+func (m Matrix) IsScalar() bool {
+	if !m.IsDiagonal() {
 		return false
 	}
 
-	diagonal := m.getDiaginal()
+	diagonal := m.GetDiaginal()
 
 	for _, currentNumber := range diagonal {
 		if currentNumber != diagonal[0] {
@@ -223,12 +225,12 @@ func (m Matrix) isScalar() bool {
 	return true
 }
 
-func (m Matrix) isUpperTriangular() bool {
-	if !m.isSquare() || m.getRowsCount() < 2 {
+func (m Matrix) IsUpperTriangular() bool {
+	if !m.IsSquare() || m.GetRowsCount() < 2 {
 		return false
 	}
 
-	for rowIndex := 0; rowIndex < m.getRowsCount(); rowIndex++ {
+	for rowIndex := 0; rowIndex < m.GetRowsCount(); rowIndex++ {
 		row := m[rowIndex]
 		zeros := row[0:rowIndex]
 
@@ -243,12 +245,12 @@ func (m Matrix) isUpperTriangular() bool {
 	return true
 }
 
-func (m Matrix) isLowerTriangular() bool {
-	if !m.isSquare() || m.getRowsCount() < 2 {
+func (m Matrix) IsLowerTriangular() bool {
+	if !m.IsSquare() || m.GetRowsCount() < 2 {
 		return false
 	}
 
-	for rowIndex := 0; rowIndex < m.getRowsCount(); rowIndex++ {
+	for rowIndex := 0; rowIndex < m.GetRowsCount(); rowIndex++ {
 		row := m[rowIndex]
 		zeros := row[rowIndex+1:]
 
@@ -263,41 +265,41 @@ func (m Matrix) isLowerTriangular() bool {
 	return true
 }
 
-func (m Matrix) isSameSizeWith(b Matrix) bool {
-	if !m.isValid() || !b.isValid() {
+func (m Matrix) IsSameSizeWith(b Matrix) bool {
+	if !m.IsValid() || !b.IsValid() {
 		return false
 	}
 
-	if m.getRowsCount() != b.getRowsCount() || m.getColumnsCount() != b.getColumnsCount() {
-		return false
-	}
-
-	return true
-}
-
-func (m Matrix) isMatchedWith(b Matrix) bool {
-	if !m.isValid() || !b.isValid() {
-		return false
-	}
-
-	if m.getColumnsCount() != b.getRowsCount() {
+	if m.GetRowsCount() != b.GetRowsCount() || m.GetColumnsCount() != b.GetColumnsCount() {
 		return false
 	}
 
 	return true
 }
 
-func (m Matrix) add(b Matrix) Matrix {
-	if !m.isValid() || !b.isValid() {
+func (m Matrix) IsMatchedWith(b Matrix) bool {
+	if !m.IsValid() || !b.IsValid() {
+		return false
+	}
+
+	if m.GetColumnsCount() != b.GetRowsCount() {
+		return false
+	}
+
+	return true
+}
+
+func (m Matrix) Add(b Matrix) Matrix {
+	if !m.IsValid() || !b.IsValid() {
 		return Matrix{}
 	}
 
-	if !m.isSameSizeWith(b) {
+	if !m.IsSameSizeWith(b) {
 		return Matrix{}
 	}
 
-	for i := 0; i < m.getRowsCount(); i++ {
-		for j := 0; j < m.getColumnsCount(); j++ {
+	for i := 0; i < m.GetRowsCount(); i++ {
+		for j := 0; j < m.GetColumnsCount(); j++ {
 			m[i][j] = m[i][j] + b[i][j]
 		}
 	}
@@ -305,22 +307,22 @@ func (m Matrix) add(b Matrix) Matrix {
 	return m
 }
 
-func (m Matrix) multipyBy(b Matrix) Matrix {
-	if !m.isValid() || !b.isValid() {
+func (m Matrix) MultipyBy(b Matrix) Matrix {
+	if !m.IsValid() || !b.IsValid() {
 		return Matrix{}
 	}
 
-	if !m.isMatchedWith(b) {
+	if !m.IsMatchedWith(b) {
 		return Matrix{}
 	}
 
 	var newMatrix [][]int
-	for rowIndex := 1; rowIndex <= m.getRowsCount(); rowIndex++ {
-		row := m.getRow(rowIndex)
+	for rowIndex := 1; rowIndex <= m.GetRowsCount(); rowIndex++ {
+		row := m.GetRow(rowIndex)
 
 		var newRow []int
-		for columnIndex := 1; columnIndex <= b.getColumnsCount(); columnIndex++ {
-			column := b.getColumn(columnIndex)
+		for columnIndex := 1; columnIndex <= b.GetColumnsCount(); columnIndex++ {
+			column := b.GetColumn(columnIndex)
 
 			var number int
 			for i := 0; i < len(row); i++ {
@@ -336,17 +338,37 @@ func (m Matrix) multipyBy(b Matrix) Matrix {
 	return Matrix(newMatrix)
 }
 
-func (m Matrix) transpose() Matrix {
-	if !m.isValid() {
+func (m Matrix) Transpose() Matrix {
+	if !m.IsValid() {
 		return Matrix{}
 	}
 
-	c := createMatrix(m.getColumnsCount(), m.getRowsCount())
+	c := CreateMatrix(m.GetColumnsCount(), m.GetRowsCount())
 
-	for i := 1; i <= m.getRowsCount(); i++ {
-		row := m.getRow(i)
-		c.setColumn(i, row)
+	for i := 1; i <= m.GetRowsCount(); i++ {
+		row := m.GetRow(i)
+		c.SetColumn(i, row)
 	}
 
 	return c
+}
+
+func (m Matrix) String() string {
+	var str string
+
+	if m.GetRowsCount() == 0 {
+		str = "\n[ ]\n"
+	}
+
+	for i := 1; i <= m.GetRowsCount(); i++ {
+		row := m.GetRow(i)
+
+		if i == 1 {
+			str += fmt.Sprintf("\n%v\n", row)
+		} else {
+			str += fmt.Sprintf("%v\n", row)
+		}
+	}
+
+	return str
 }
