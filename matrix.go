@@ -49,6 +49,24 @@ func (m Matrix) getRow(n int) []int {
 	return m[n-1]
 }
 
+func (m Matrix) setRow(n int, row []int) Matrix {
+	if !m.isValid() {
+		return Matrix{}
+	}
+
+	if m.getRowsCount() < n || n < 1 {
+		return Matrix{}
+	}
+
+	if m.getColumnsCount() != len(row) {
+		return Matrix{}
+	}
+
+	m[n-1] = row
+
+	return m
+}
+
 func (m Matrix) getColumn(n int) []int {
 	if !m.isValid() {
 		return []int{}
@@ -66,6 +84,27 @@ func (m Matrix) getColumn(n int) []int {
 	}
 
 	return column
+}
+
+func (m Matrix) setColumn(n int, column []int) Matrix {
+	if !m.isValid() {
+		return Matrix{}
+	}
+
+	if n < 1 || m.getColumnsCount() < n {
+		return Matrix{}
+	}
+
+	if m.getRowsCount() != len(column) {
+		return Matrix{}
+	}
+
+	for rowIndex := 0; rowIndex < m.getRowsCount(); rowIndex++ {
+		row := m[rowIndex]
+		row[n-1] = column[rowIndex]
+	}
+
+	return m
 }
 
 func (m Matrix) getDiaginal() []int {
@@ -295,4 +334,19 @@ func (m Matrix) multipyBy(b Matrix) Matrix {
 	}
 
 	return Matrix(newMatrix)
+}
+
+func (m Matrix) transpose() Matrix {
+	if !m.isValid() {
+		return Matrix{}
+	}
+
+	c := createMatrix(m.getColumnsCount(), m.getRowsCount())
+
+	for i := 1; i <= m.getRowsCount(); i++ {
+		row := m.getRow(i)
+		c.setColumn(i, row)
+	}
+
+	return c
 }
